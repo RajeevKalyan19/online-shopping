@@ -1,0 +1,274 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Online Shopping Store</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #172554;
+            color: white;
+            text-align: center;
+            padding: 25px;
+        }
+
+        header h1 {
+            margin-bottom: 10px;
+        }
+
+        .search-box {
+            text-align: center;
+            padding: 25px;
+        }
+
+        .search-box input {
+            width: 80%;
+            max-width: 450px;
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        h2 {
+            text-align: center;
+            margin: 15px;
+        }
+
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+            padding: 25px;
+        }
+
+        .product {
+            background-color: white;
+            padding: 15px;
+            text-align: center;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px #ccc;
+        }
+
+        .product img {
+            width: 100%;
+            height: 180px;
+            object-fit: contain;
+        }
+
+        .product h3 {
+            margin: 12px;
+        }
+
+        .price {
+            color: green;
+            font-size: 18px;
+            font-weight: bold;
+            margin: 12px;
+        }
+
+        button {
+            background-color: #2563eb;
+            color: white;
+            padding: 10px 18px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #172554;
+        }
+
+        .cart {
+            background-color: white;
+            margin: 25px;
+            padding: 25px;
+            border-radius: 10px;
+        }
+
+        .cart ul {
+            padding: 20px;
+        }
+
+        .cart li {
+            margin-bottom: 10px;
+        }
+
+        footer {
+            background-color: #172554;
+            color: white;
+            text-align: center;
+            padding: 18px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>ONLINE SHOPPING STORE</h1>
+        <p>Welcome! Shop Your Favourite Products</p>
+    </header>
+
+    <div class="search-box">
+        <input
+            type="text"
+            id="search"
+            placeholder="Search products..."
+        >
+    </div>
+
+    <h2>Our Products</h2>
+
+    <section class="products">
+
+        <div class="product" data-name="Laptop">
+            <img
+                src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=400"
+                alt="Laptop"
+            >
+            <h3>Laptop</h3>
+            <p class="price">₹45,000</p>
+            <button onclick="addToCart('Laptop',45000)">
+                Add to Cart
+            </button>
+        </div>
+
+        <div class="product" data-name="Mobile">
+            <img
+                src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400"
+                alt="Mobile Phone"
+            >
+            <h3>Mobile Phone</h3>
+            <p class="price">₹20,000</p>
+            <button onclick="addToCart('Mobile Phone',20000)">
+                Add to Cart
+            </button>
+        </div>
+
+        <div class="product" data-name="Headphones">
+            <img
+                src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400"
+                alt="Headphones"
+            >
+            <h3>Headphones</h3>
+            <p class="price">₹2,000</p>
+            <button onclick="addToCart('Headphones',2000)">
+                Add to Cart
+            </button>
+        </div>
+
+        <div class="product" data-name="Watch">
+            <img
+                src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400"
+                alt="Smart Watch"
+            >
+            <h3>Smart Watch</h3>
+            <p class="price">₹3,500</p>
+            <button onclick="addToCart('Smart Watch',3500)">
+                Add to Cart
+            </button>
+        </div>
+
+    </section>
+
+    <section class="cart">
+
+        <h2>Shopping Cart</h2>
+
+        <ul id="cart-items"></ul>
+
+        <h3>Total Amount: ₹<span id="total">0</span></h3>
+
+        <br>
+
+        <button onclick="placeOrder()">
+            Place Order
+        </button>
+
+    </section>
+
+    <footer>
+        <p>© 2026 Online Shopping Store</p>
+    </footer>
+
+    <script>
+
+        let total = 0;
+
+        function addToCart(name, price) {
+
+            let cart = document.getElementById("cart-items");
+
+            let item = document.createElement("li");
+
+            item.textContent = name + " - ₹" + price;
+
+            cart.appendChild(item);
+
+            total = total + price;
+
+            document.getElementById("total").textContent = total;
+
+            alert(name + " added to cart successfully!");
+
+        }
+
+        // Search Products
+
+        document.getElementById("search").addEventListener("input", function() {
+
+            let searchValue = this.value.toLowerCase();
+
+            let products = document.querySelectorAll(".product");
+
+            products.forEach(function(product) {
+
+                let name = product.dataset.name.toLowerCase();
+
+                if (name.includes(searchValue)) {
+                    product.style.display = "block";
+                } else {
+                    product.style.display = "none";
+                }
+
+            });
+
+        });
+
+        // Place Order
+
+        function placeOrder() {
+
+            if (total === 0) {
+
+                alert("Please add products to your cart!");
+
+            } else {
+
+                alert("Order placed successfully! Total Amount: ₹" + total);
+
+            }
+
+        }
+
+    </script>
+
+</body>
+</html>
